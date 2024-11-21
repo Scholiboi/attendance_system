@@ -1,59 +1,113 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./TeacherDashboard.css";
 
 const TeacherDashboard = ({ userId }) => {
   const [classes, setClasses] = useState([]);
   const [selectedClass, setSelectedClass] = useState(null);
   const [students, setStudents] = useState([]);
-  const [attendance, setAttendance] = useState([]);
+  const [attendance, setAttendance] = useState({});
   const [date, setDate] = useState("");
   const navigate = useNavigate();
 
+  // Fetch teacher's classes on component mount
   useEffect(() => {
-    // Fetch teacher's classes
-    axios.get(`http://localhost:5000/teacher/${userId}/classes`).then((response) => {
-      setClasses(response.data);
-    });
+    axios
+      .get(`http://localhost:5000/teacher/${userId}/classes`)
+      .then((response) => {
+        setClasses(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching classes:", error);
+      });
   }, [userId]);
 
-  const fetchStudents = (classId) => {
-    axios.get(`http://localhost:5000/teacher/${userId}/students/${classId}`).then((response) => {
-      setStudents(response.data);
-      setSelectedClass(classId);
+  // Fetch students when a class is selected
+  useEffect(() => {
+    if (selectedClass) {
+      axios
+        .get(`http://localhost:5000/teacher/${userId}/students/${selectedClass}`)
+        .then((response) => {
+          setStudents(response.data);
+          // Initialize attendance with null for each student
+          const initialAttendance = {};
+          response.data.forEach((student) => {
+            initialAttendance[student.student_id] = null;
+          });
+          setAttendance(initialAttendance);
+        })
+        .catch((error) => {
+          console.error("Error fetching students:", error);
+        });
+    }
+  }, [selectedClass, userId]);
 
-      // Initialize attendance object
-      const initialAttendance = {};
-      response.data.forEach((student) => {
-        initialAttendance[student.student_id] = "Present"; // Default status
-      });
-      setAttendance(initialAttendance);
-    });
+  // Fetch existing attendance when date or class changes
+  useEffect(() => {
+    if (selectedClass && date) {
+      axios
+        .get(
+          `http://localhost:5000/teacher/${userId}/attendance/${selectedClass}/${date}`
+        )
+        .then((response) => {
+          const attendanceMap = {};
+          response.data.forEach((record) => {
+            attendanceMap[record.student_id] = record.status;
+          });
+
+          // Update attendance state with existing records
+          setAttendance((prevAttendance) => {
+            const updatedAttendance = { ...prevAttendance };
+            students.forEach((student) => {
+              updatedAttendance[student.student_id] =
+                attendanceMap[student.student_id] || null;
+            });
+            return updatedAttendance;
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching attendance:", error);
+        });
+    }
+  }, [selectedClass, date, students, userId]);
+
+  // Handle class selection
+  const handleClassSelect = (classId) => {
+    setSelectedClass(classId);
+    setDate(""); // Reset date when changing class
+    setAttendance({});
   };
 
-  const fetchAttendance = (classId) => {
-    axios.get(`http://localhost:5000/teacher/${userId}/attendance/${classId}`).then((response) => {
-      setAttendance(response.data);
-      setSelectedClass(classId);
-    });
-  };
-
+  // Submit attendance
   const markAttendance = () => {
-    axios.post(`http://localhost:5000/teacher/${userId}/attendance/${selectedClass}`, {
-      date,
-      attendance: Object.entries(attendance).map(([student_id, status]) => ({
-        student_id,
-        status,
-      })),
-    })
-    .then(() => {
-      alert("Attendance marked successfully!");
-    })
-    .catch((error) => {
-      console.error("There was an error marking the attendance!", error);
-    });
+    if (!date) {
+      alert("Please select a date.");
+      return;
+    }
+
+    axios
+      .post(
+        `http://localhost:5000/teacher/${userId}/attendance/${selectedClass}`,
+        {
+          date,
+          attendance: Object.entries(attendance).map(
+            ([student_id, status]) => ({
+              student_id,
+              status,
+            })
+          ),
+        }
+      )
+      .then(() => {
+        alert("Attendance marked successfully!");
+      })
+      .catch((error) => {
+        console.error("Error marking attendance:", error);
+      });
   };
 
+  // Handle logout
   const handleLogout = () => {
     localStorage.removeItem("userRole");
     localStorage.removeItem("userId");
@@ -61,19 +115,21 @@ const TeacherDashboard = ({ userId }) => {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Teacher Dashboard</h1>
-      <button onClick={handleLogout} className="bg-red-500 text-white py-2 px-4 rounded mb-4">
+    <div className="dashboard-container">
+      <h1 className="dashboard-header">Teacher Dashboard</h1>
+      <button onClick={handleLogout} className="logout-button">
         Logout
       </button>
 
-      <h2 className="text-xl font-semibold mb-2">Your Classes:</h2>
-      <ul className="mb-4">
+      <h2 className="dashboard-subheader">Your Classes:</h2>
+      <ul className="classes-list">
         {classes.map((cls) => (
           <li
             key={cls.class_id}
-            className="cursor-pointer text-blue-500"
-            onClick={() => fetchStudents(cls.class_id)}
+            className={`class-item ${
+              selectedClass === cls.class_id ? "selected" : ""
+            }`}
+            onClick={() => handleClassSelect(cls.class_id)}
           >
             {cls.class_name}
           </li>
@@ -82,38 +138,81 @@ const TeacherDashboard = ({ userId }) => {
 
       {selectedClass && (
         <>
-          <h2 className="text-xl font-semibold mb-2">Mark Attendance for Class {selectedClass}:</h2>
-          <input
-            type="date"
-            className="border p-2 mb-4 w-full"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
-          {students.map((student) => (
-            <div key={student.student_id} className="flex items-center mb-2">
-              <span className="w-1/2">{student.student_name}</span>
-              <select
-                className="border p-2"
-                value={attendance[student.student_id]}
-                onChange={(e) =>
-                  setAttendance({
-                    ...attendance,
-                    [student.student_id]: e.target.value,
-                  })
-                }
-              >
-                <option value="Present">Present</option>
-                <option value="Absent">Absent</option>
-                <option value="Late">Late</option>
-              </select>
-            </div>
-          ))}
-          <button
-            onClick={markAttendance}
-            className="bg-green-500 text-white py-2 px-4 rounded"
-          >
-            Submit Attendance
-          </button>
+          <h2 className="dashboard-subheader">
+            Class: {classes.find((c) => c.class_id === selectedClass)?.class_name}
+          </h2>
+          <div className="date-container">
+            <label htmlFor="date-input">Select Date:</label>
+            <input
+              id="date-input"
+              type="date"
+              className="date-input"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </div>
+
+          {date && students.length > 0 && (
+            <>
+              <div className="attendance-list">
+                {students.map((student) => (
+                  <div key={student.student_id} className="student-row">
+                    <span>{student.student_name}</span>
+                    <div className="attendance-options">
+                      <label>
+                        <input
+                          type="radio"
+                          name={`attendance-${student.student_id}`}
+                          value="Present"
+                          checked={attendance[student.student_id] === "Present"}
+                          onChange={() =>
+                            setAttendance((prevAttendance) => ({
+                              ...prevAttendance,
+                              [student.student_id]: "Present",
+                            }))
+                          }
+                        />
+                        Present
+                      </label>
+                      <label>
+                        <input
+                          type="radio"
+                          name={`attendance-${student.student_id}`}
+                          value="Late"
+                          checked={attendance[student.student_id] === "Late"}
+                          onChange={() =>
+                            setAttendance((prevAttendance) => ({
+                              ...prevAttendance,
+                              [student.student_id]: "Late",
+                            }))
+                          }
+                        />
+                        Late
+                      </label>
+                      <label>
+                        <input
+                          type="radio"
+                          name={`attendance-${student.student_id}`}
+                          value="Absent"
+                          checked={attendance[student.student_id] === "Absent"}
+                          onChange={() =>
+                            setAttendance((prevAttendance) => ({
+                              ...prevAttendance,
+                              [student.student_id]: "Absent",
+                            }))
+                          }
+                        />
+                        Absent
+                      </label>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <button onClick={markAttendance} className="submit-button">
+                Submit Attendance
+              </button>
+            </>
+          )}
         </>
       )}
     </div>

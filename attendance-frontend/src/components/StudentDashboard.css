@@ -1,0 +1,106 @@
+/* General container styling */
+.dashboard-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Header styling */
+  .dashboard-header {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Button styling */
+  .logout-button {
+    background-color: #e63946;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+  }
+  .logout-button:hover {
+    background-color: #c5303c;
+  }
+  
+  /* Classes list styling */
+  .classes-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  .classes-list li {
+    color: #007bff;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+  }
+  .classes-list li:hover {
+    color: #0056b3;
+  }
+  
+  /* Table styling */
+  .attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+    border: 1px solid #ddd;
+  }
+  .attendance-table th,
+  .attendance-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  .attendance-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  .attendance-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  .attendance-table tr:hover {
+    background-color: #f1f1f1;
+  }
+
+/* Additional styles */
+
+.class-item {
+  font-size: 1.1rem;
+  color: #3182ce;
+  cursor: pointer;
+  margin: 5px 0;
+  padding: 10px;
+  background-color: #edf2f7;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.class-item:hover {
+  background-color: #e2e8f0;
+}
+
+.class-item.selected {
+  background-color: #bee3f8;
+  font-weight: bold;
+}
+
+/* Responsive table */
+
+@media (max-width: 600px) {
+  .attendance-table th,
+  .attendance-table td {
+    padding: 8px;
+  }
+}

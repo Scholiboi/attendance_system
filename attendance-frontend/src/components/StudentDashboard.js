@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./StudentDashboard.css";
 
 const StudentDashboard = ({ userId }) => {
   const [classes, setClasses] = useState([]);
@@ -10,18 +11,43 @@ const StudentDashboard = ({ userId }) => {
 
   useEffect(() => {
     // Fetch student's classes
-    axios.get(`http://localhost:5000/student/${userId}/classes`).then((response) => {
-      setClasses(response.data);
-    });
+    const fetchClasses = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/student/${userId}/classes`
+        );
+        setClasses(response.data);
+      } catch (error) {
+        console.error("Error fetching classes:", error);
+      }
+    };
+    fetchClasses();
   }, [userId]);
 
-  const fetchAttendance = (classId) => {
-    axios
-      .get(`http://localhost:5000/student/${userId}/attendance/${classId}`)
-      .then((response) => {
-        setAttendance(response.data);
-        setSelectedClass(classId);
-      });
+  const fetchAttendance = async (classId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/student/${userId}/attendance/${classId}`
+      );
+      // Sort the attendance by date
+      const sortedAttendance = response.data.sort(
+        (a, b) => new Date(a.date) - new Date(b.date)
+      );
+      setAttendance(sortedAttendance);
+      setSelectedClass(classId);
+    } catch (error) {
+      console.error("Error fetching attendance:", error);
+    }
+  };
+
+  const handleClassClick = (classId) => {
+    if (classId === selectedClass) {
+      // If the same class is clicked, toggle selection off
+      setSelectedClass(null);
+      setAttendance([]);
+    } else {
+      fetchAttendance(classId);
+    }
   };
 
   const handleLogout = () => {
@@ -31,42 +57,57 @@ const StudentDashboard = ({ userId }) => {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Student Dashboard</h1>
-      <button onClick={handleLogout} className="bg-red-500 text-white py-2 px-4 rounded mb-4">
+    <div className="dashboard-container">
+      <h1 className="dashboard-header">Student Dashboard</h1>
+      <button onClick={handleLogout} className="logout-button">
         Logout
       </button>
 
-      <h2 className="text-xl font-semibold mb-2">Your Classes:</h2>
-      <ul className="mb-4">
-        {classes.map((cls) => (
-          <li
-            key={cls.class_id}
-            className="cursor-pointer text-blue-500"
-            onClick={() => fetchAttendance(cls.class_id)}
-          >
-            {cls.class_name}
-          </li>
-        ))}
+      <h2 className="dashboard-subheader">Your Classes:</h2>
+      <ul className="classes-list">
+        {classes.length === 0 ? (
+          <li>No classes found</li>
+        ) : (
+          classes.map((cls) => (
+            <li
+              key={cls.class_id}
+              className={`class-item ${
+                selectedClass === cls.class_id ? "selected" : ""
+              }`}
+              onClick={() => handleClassClick(cls.class_id)}
+            >
+              {cls.class_name}
+            </li>
+          ))
+        )}
       </ul>
 
       {selectedClass && (
         <>
-          <h2 className="text-xl font-semibold mb-2">Attendance for Class {selectedClass}:</h2>
-          <table className="table-auto w-full border-collapse border border-gray-400">
+          <h2 className="dashboard-subheader">
+            Attendance for Class:{" "}
+            {classes.find((c) => c.class_id === selectedClass)?.class_name}
+          </h2>
+          <table className="attendance-table">
             <thead>
               <tr>
-                <th className="border border-gray-400 px-4 py-2">Date</th>
-                <th className="border border-gray-400 px-4 py-2">Status</th>
+                <th>Date</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>
-              {attendance.map((att, index) => (
-                <tr key={index}>
-                  <td className="border border-gray-400 px-4 py-2">{att.date}</td>
-                  <td className="border border-gray-400 px-4 py-2">{att.status}</td>
+              {attendance.length === 0 ? (
+                <tr>
+                  <td colSpan="2">No attendance data available</td>
                 </tr>
-              ))}
+              ) : (
+                attendance.map((att, index) => (
+                  <tr key={index}>
+                    <td>{new Date(att.date).toLocaleDateString()}</td>
+                    <td>{att.status}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </>

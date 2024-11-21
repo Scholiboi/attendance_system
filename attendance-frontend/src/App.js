@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Login from "./components/Login";
 import StudentDashboard from "./components/StudentDashboard";
 import TeacherDashboard from "./components/TeacherDashboard";
+import AdminLogin from "./components/AdminLogin";
+import AdminDashboard from "./components/AdminDashboard";
 
 const App = () => {
   const [userRole, setUserRole] = useState(localStorage.getItem("userRole") || "");
@@ -32,6 +34,14 @@ const App = () => {
         <Route
           path="/teacher-dashboard"
           element={userRole === "teacher" ? <TeacherDashboard userId={userId} /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/admin-login"
+          element={<AdminLogin setUserRole={setUserRole} setUserId={setUserId} />}
+        />
+        <Route
+          path="/admin-dashboard"
+          element={userRole === "admin" ? <AdminDashboard /> : <Navigate to="/admin-login" />}
         />
       </Routes>
     </Router>

@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./Login.css"; // Import the new CSS file
 
 const Login = ({ setUserRole, setUserId }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "Login - Attendance System";
+  }, []);
 
   const handleLogin = async () => {
     try {
@@ -15,11 +20,11 @@ const Login = ({ setUserRole, setUserId }) => {
       });
       setUserRole(response.data.role);
       setUserId(response.data.user_id);
-  
+
       // Store user information in local storage
       localStorage.setItem("userRole", response.data.role);
       localStorage.setItem("userId", response.data.user_id);
-  
+
       // Navigate based on role
       if (response.data.role === "student") {
         navigate("/student-dashboard");
@@ -32,27 +37,24 @@ const Login = ({ setUserRole, setUserId }) => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-200">
-      <div className="bg-white p-6 rounded shadow-md">
-        <h1 className="text-xl mb-4 font-bold">Login</h1>
+    <div className="login-container">
+      <div className="login-form">
+        <h1 className="login-title">Attendance System Login</h1>
         <input
           type="email"
           placeholder="Email"
-          className="border p-2 w-full mb-4"
+          className="login-input"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
           placeholder="Password"
-          className="border p-2 w-full mb-4"
+          className="login-input"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button
-          onClick={handleLogin}
-          className="bg-blue-500 text-white py-2 px-4 rounded w-full"
-        >
+        <button onClick={handleLogin} className="login-button">
           Login
         </button>
       </div>
