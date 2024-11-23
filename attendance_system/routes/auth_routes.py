@@ -11,12 +11,12 @@ def login():
     email = data.get('email')
     password = data.get('password')
 
-    # Check if user is a teacher
+    # if user is a teacher, we check here
     user = Teacher.query.filter_by(email=email).first()
     role = 'teacher'
     
     if not user:
-        # Check if user is a student
+        # here for student
         user = Student.query.filter_by(email=email).first()
         role = 'student'
 

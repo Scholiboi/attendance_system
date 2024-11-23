@@ -37,7 +37,7 @@ const Login = ({ setUserRole, setUserId }) => {
   };
 
   return (
-    <div className="login-container">
+    <div className="login-page">
       <div className="login-form">
         <h1 className="login-title">Attendance System Login</h1>
         <input

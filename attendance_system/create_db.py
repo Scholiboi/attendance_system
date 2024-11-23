@@ -1,5 +1,5 @@
 from app import app, db
-from models import Teacher, Student, Class, StudentClass, Attendance
+from models import Teacher, Student, Class, StudentClass, Attendance, Admin
 
 with app.app_context():
     db.create_all()

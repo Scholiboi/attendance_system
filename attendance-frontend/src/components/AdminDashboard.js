@@ -58,7 +58,7 @@ const AdminDashboard = () => {
       await axios.post('http://localhost:5000/admin/add_teacher', teacherData);
       alert('Teacher added successfully');
       setTeacherData({ name: '', email: '', password: '' });
-      fetchTeachers(); // Refresh the list of teachers
+      fetchTeachers(); 
     } catch (error) {
       alert(error.response.data.error || 'Error adding teacher');
     }
@@ -69,7 +69,7 @@ const AdminDashboard = () => {
       await axios.post('http://localhost:5000/admin/add_student', studentData);
       alert('Student added successfully');
       setStudentData({ name: '', email: '', password: '' });
-      fetchStudents(); // Refresh the list of students
+      fetchStudents(); //refreshing the list of students
     } catch (error) {
       alert(error.response.data.error || 'Error adding student');
     }
@@ -80,7 +80,7 @@ const AdminDashboard = () => {
       await axios.post('http://localhost:5000/admin/add_class', classData);
       alert('Class added successfully');
       setClassData({ name: '', teacher_id: '' });
-      fetchClasses(); // Refresh the list of classes
+      fetchClasses(); //refresh for list of classes
     } catch (error) {
       alert(error.response.data.error || 'Error adding class');
     }

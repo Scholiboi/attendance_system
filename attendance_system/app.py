@@ -11,7 +11,6 @@ db.init_app(app)
 bcrypt = Bcrypt(app)
 CORS(app)
 
-# Routes
 from routes.auth_routes import auth_bp
 from routes.student_routes import student_bp
 from routes.teacher_routes import teacher_bp

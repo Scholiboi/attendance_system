@@ -11,7 +11,7 @@ def admin_login():
     username = data.get('username')
     password = data.get('password')
     admin = Admin.query.filter_by(username=username).first()
-    if admin and admin.check_password(password):
+    if admin and bcrypt.check_password_hash(admin.password, password):
         return jsonify({"message": "Login successful", "role": "admin", "user_id": admin.id}), 200
     return jsonify({"message": "Invalid credentials"}), 401
 

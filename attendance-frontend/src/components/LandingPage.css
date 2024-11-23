@@ -1,0 +1,285 @@
+.landing-page * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.landing-page body, .landing-page html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background-color: #2c3e50;
+  color: #f2f2f2;
+}
+
+.landing-page .parallax-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: moveBackground 15s linear infinite;
+  background: url('./images/f1cd224e-b443-4371-9101-66e50459dd1d.jpeg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+@keyframes moveBackground {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 50% 50%;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.landing-page .content {
+  background: rgba(30, 30, 30, 0.8);
+  color: #f2f2f2;
+  width: 90%;
+  max-width: 1200px;
+  border-radius: 20px;
+  padding: 70px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  overflow: auto;
+}
+
+.landing-page .header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.landing-page .main-title {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: #16a085;
+  animation: fadeInDown 1.5s ease-out;
+}
+
+.landing-page .site-name {
+  font-size: 2.5rem;
+  color: #fff;
+  font-weight: 600;
+  margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.landing-page .cta {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.landing-page .cta-title {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: #16a085;
+  font-weight: 600;
+}
+
+.landing-page .button-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.landing-page .login-btn {
+  display: inline-block;
+  padding: 18px 45px;
+  font-size: 1.8rem;
+  text-decoration: none;
+  border-radius: 12px;
+  text-transform: uppercase;
+  color: white;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.landing-page .teacher-btn {
+  background: #34495e;
+}
+
+.landing-page .student-btn {
+  background: #16a085;
+}
+
+.landing-page .login-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
+  opacity: 0.9;
+}
+
+.landing-page .login-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.landing-page .features {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.landing-page .feature-cards {
+  display: flex;
+  justify-content: space-around;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.landing-page .card {
+  background: #fff;
+  color: #34495e;
+  width: 250px;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.landing-page .card:hover {
+  transform: translateY(-10px);
+}
+
+.landing-page .icon-container {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.landing-page .icon {
+  width: 60px;
+  height: 60px;
+}
+
+.landing-page .card h3 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.landing-page .card p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.landing-page .about-us {
+  margin-top: 80px;
+}
+
+.landing-page .team {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px;
+  gap: 20px;
+}
+
+.landing-page .team-member {
+  text-align: center;
+  width: 250px;
+}
+
+.landing-page .team-photo {
+  width: 100%;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.landing-page .team-member h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #16a085;
+}
+
+.landing-page .team-member p {
+  font-size: 1rem;
+  color: #aaa;
+}
+
+.landing-page .how-it-works {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.landing-page .steps {
+  display: flex;
+  justify-content: space-around;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.landing-page .step {
+  width: 30%;
+  padding: 30px;
+  background: rgba(19, 9, 52, 0.85);
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.landing-page .step h3 {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}
+
+.landing-page .step p {
+  font-size: 1.2rem;
+}
+
+.landing-page .contact {
+  margin-top: 80px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.landing-page .contact p {
+  margin-bottom: 10px;
+}
+
+/* for responsive design */
+@media (max-width: 768px) {
+  .landing-page .main-title {
+    font-size: 3rem;
+  }
+
+  .landing-page .cta-title {
+    font-size: 2.5rem;
+  }
+
+  .landing-page .login-btn {
+    padding: 15px 30px;
+    font-size: 1.5rem;
+  }
+
+  .landing-page .feature-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .landing-page .card {
+    width: 80%;
+    margin-bottom: 20px;
+  }
+
+  .landing-page .team {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .landing-page .team-member {
+    width: 80%;
+    margin-bottom: 20px;
+  }
+
+  .landing-page .steps {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .landing-page .step {
+    width: 80%;
+    margin-bottom: 20px;
+  }
+}

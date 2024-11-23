@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import "./StudentDashboard.css";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const StudentDashboard = ({ userId }) => {
   const [classes, setClasses] = useState([]);
@@ -10,7 +14,6 @@ const StudentDashboard = ({ userId }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch student's classes
     const fetchClasses = async () => {
       try {
         const response = await axios.get(
@@ -29,7 +32,6 @@ const StudentDashboard = ({ userId }) => {
       const response = await axios.get(
         `http://localhost:5000/student/${userId}/attendance/${classId}`
       );
-      // Sort the attendance by date
       const sortedAttendance = response.data.sort(
         (a, b) => new Date(a.date) - new Date(b.date)
       );
@@ -42,7 +44,6 @@ const StudentDashboard = ({ userId }) => {
 
   const handleClassClick = (classId) => {
     if (classId === selectedClass) {
-      // If the same class is clicked, toggle selection off
       setSelectedClass(null);
       setAttendance([]);
     } else {
@@ -54,6 +55,27 @@ const StudentDashboard = ({ userId }) => {
     localStorage.removeItem("userRole");
     localStorage.removeItem("userId");
     navigate("/");
+  };
+
+  const calculateAttendancePercentage = () => {
+    const totalClasses = attendance.length;
+    const presentCount = attendance.filter(att => att.status === 'Present').length;
+    const percentage = ((presentCount / totalClasses) * 100).toFixed(2);
+    return percentage;
+  };
+
+  const attendanceData = {
+    labels: ['Present', 'Absent', 'Late'],
+    datasets: [
+      {
+        data: [
+          attendance.filter(att => att.status === 'Present').length,
+          attendance.filter(att => att.status === 'Absent').length,
+          attendance.filter(att => att.status === 'Late').length,
+        ],
+        backgroundColor: ['#38a169', '#e53e3e', '#dd6b20'],
+      },
+    ],
   };
 
   return (
@@ -88,6 +110,16 @@ const StudentDashboard = ({ userId }) => {
             Attendance for Class:{" "}
             {classes.find((c) => c.class_id === selectedClass)?.class_name}
           </h2>
+          {attendance.length > 0 && (
+            <>
+              <h3 className="attendance-percentage">
+                Your Attendance Percentage: {calculateAttendancePercentage()}%
+              </h3>
+              <div className="pie-chart-container">
+                <Pie data={attendanceData} />
+              </div>
+            </>
+          )}
           <table className="attendance-table">
             <thead>
               <tr>

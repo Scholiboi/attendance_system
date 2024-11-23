@@ -1,6 +1,10 @@
-/* Login.css */
+.login-page * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-.login-container {
+.login-page {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9,7 +13,7 @@
   padding: 20px;
 }
 
-.login-form {
+.login-page .login-form {
   background-color: #ffffff;
   padding: 40px 30px;
   border-radius: 8px;
@@ -18,7 +22,7 @@
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 }
 
-.login-title {
+.login-page .login-title {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 30px;
@@ -26,7 +30,7 @@
   color: #333333;
 }
 
-.login-input {
+.login-page .login-input {
   width: 100%;
   padding: 12px 15px;
   margin-bottom: 20px;
@@ -35,7 +39,7 @@
   font-size: 16px;
 }
 
-.login-button {
+.login-page .login-button {
   width: 100%;
   padding: 12px 15px;
   border: none;
@@ -47,26 +51,26 @@
   transition: background-color 0.3s ease;
 }
 
-.login-button:hover {
+.login-page .login-button:hover {
   background-color: #5a67d8;
 }
 
 /* Responsive Design */
 @media (max-width: 480px) {
-  .login-form {
+  .login-page .login-form {
     padding: 30px 20px;
   }
 
-  .login-title {
+  .login-page .login-title {
     font-size: 20px;
   }
 
-  .login-input {
+  .login-page .login-input {
     padding: 10px 12px;
     font-size: 14px;
   }
 
-  .login-button {
+  .login-page .login-button {
     padding: 10px 12px;
     font-size: 16px;
   }

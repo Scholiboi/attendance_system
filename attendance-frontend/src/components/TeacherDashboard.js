@@ -11,7 +11,6 @@ const TeacherDashboard = ({ userId }) => {
   const [date, setDate] = useState("");
   const navigate = useNavigate();
 
-  // Fetch teacher's classes on component mount
   useEffect(() => {
     axios
       .get(`http://localhost:5000/teacher/${userId}/classes`)
@@ -23,14 +22,12 @@ const TeacherDashboard = ({ userId }) => {
       });
   }, [userId]);
 
-  // Fetch students when a class is selected
   useEffect(() => {
     if (selectedClass) {
       axios
         .get(`http://localhost:5000/teacher/${userId}/students/${selectedClass}`)
         .then((response) => {
           setStudents(response.data);
-          // Initialize attendance with null for each student
           const initialAttendance = {};
           response.data.forEach((student) => {
             initialAttendance[student.student_id] = null;
@@ -43,7 +40,6 @@ const TeacherDashboard = ({ userId }) => {
     }
   }, [selectedClass, userId]);
 
-  // Fetch existing attendance when date or class changes
   useEffect(() => {
     if (selectedClass && date) {
       axios
@@ -56,7 +52,6 @@ const TeacherDashboard = ({ userId }) => {
             attendanceMap[record.student_id] = record.status;
           });
 
-          // Update attendance state with existing records
           setAttendance((prevAttendance) => {
             const updatedAttendance = { ...prevAttendance };
             students.forEach((student) => {
@@ -72,14 +67,12 @@ const TeacherDashboard = ({ userId }) => {
     }
   }, [selectedClass, date, students, userId]);
 
-  // Handle class selection
   const handleClassSelect = (classId) => {
     setSelectedClass(classId);
-    setDate(""); // Reset date when changing class
+    setDate(""); 
     setAttendance({});
   };
 
-  // Submit attendance
   const markAttendance = () => {
     if (!date) {
       alert("Please select a date.");

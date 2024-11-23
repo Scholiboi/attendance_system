@@ -1,4 +1,5 @@
 /__pycache__
 /.venv
 /routes/__pycache__
-/instance/
+/instance
+

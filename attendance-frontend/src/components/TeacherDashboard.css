@@ -1,170 +1,159 @@
-/* TeacherDashboard.css */
-
-/* General container styles */
 .dashboard-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Header styles */
-  .dashboard-header {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #333;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  /* Button styles */
-  .logout-button,
-  .submit-button {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #fff;
-    background-color: #e53e3e;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-bottom: 20px;
-  }
-  
-  .logout-button:hover,
-  .submit-button:hover {
-    background-color: #c53030;
-  }
-  
-  .submit-button {
-    background-color: #38a169;
-  }
-  
-  .submit-button:hover {
-    background-color: #2f855a;
-  }
-  
-  /* Subheader styles */
-  .dashboard-subheader {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #555;
-    margin-bottom: 15px;
-  }
-  
-  /* Classes list */
-  .classes-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0 0 20px 0;
-  }
-  
-  .classes-list li {
-    font-size: 1.2rem;
-    color: #3182ce;
-    cursor: pointer;
-    margin: 5px 0;
-    padding: 10px;
-    background-color: #edf2f7;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .classes-list li:hover {
-    background-color: #bee3f8;
-  }
-  
-  /* Input styles */
-  .date-input {
-    width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #cbd5e0;
-    border-radius: 5px;
-    margin-bottom: 20px;
-  }
-  
-  /* Students and attendance */
-  .student-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #f7fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 5px;
-  }
-  
-  .student-row span {
-    font-size: 1rem;
-    color: #4a5568;
-  }
-  
-  .student-row select {
-    padding: 5px;
-    font-size: 1rem;
-    border: 1px solid #cbd5e0;
-    border-radius: 5px;
-    background-color: #fff;
-  }
-  
-  /* Table styles */
-  .attendance-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .attendance-table th,
-  .attendance-table td {
-    border: 1px solid #cbd5e0;
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .attendance-table th {
-    background-color: #edf2f7;
-    color: #333;
-    font-weight: bold;
-  }
-  
-  .attendance-table tr:nth-child(even) {
-    background-color: #f7fafc;
-  }
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-  .attendance-options {
-    display: flex;
-    gap: 15px;
-  }
-  
-  .attendance-options label {
-    display: flex;
-    align-items: center;
-  }
-  
-  .attendance-options input[type="radio"] {
-    margin-right: 5px;
-  }
-  
-  .class-item.selected {
-    background-color: #bee3f8;
-    font-weight: bold;
-  }
-  
-  /* Date container styling */
-  .date-container {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .date-container label {
-    margin-right: 10px;
-    font-weight: bold;
-  }
+.dashboard-header {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logout-button,
+.submit-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #e53e3e;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.logout-button:hover,
+.submit-button:hover {
+  background-color: #c53030;
+}
+
+.submit-button {
+  background-color: #38a169;
+}
+
+.submit-button:hover {
+  background-color: #2f855a;
+}
+
+.dashboard-subheader {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.classes-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.classes-list li {
+  font-size: 1.2rem;
+  color: #3182ce;
+  cursor: pointer;
+  margin: 5px 0;
+  padding: 10px;
+  background-color: #edf2f7;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.classes-list li:hover {
+  background-color: #bee3f8;
+}
+
+.date-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.student-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+}
+
+.student-row span {
+  font-size: 1rem;
+  color: #4a5568;
+}
+
+.student-row select {
+  padding: 5px;
+  font-size: 1rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.attendance-table th,
+.attendance-table td {
+  border: 1px solid #cbd5e0;
+  padding: 10px;
+  text-align: center;
+}
+
+.attendance-table th {
+  background-color: #edf2f7;
+  color: #333;
+  font-weight: bold;
+}
+
+.attendance-table tr:nth-child(even) {
+  background-color: #f7fafc;
+}
+
+.attendance-options {
+  display: flex;
+  gap: 15px;
+}
+
+.attendance-options label {
+  display: flex;
+  align-items: center;
+}
+
+.attendance-options input[type="radio"] {
+  margin-right: 5px;
+}
+
+.class-item.selected {
+  background-color: #bee3f8;
+  font-weight: bold;
+}
+
+.date-container {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.date-container label {
+  margin-right: 10px;
+  font-weight: bold;
+}
